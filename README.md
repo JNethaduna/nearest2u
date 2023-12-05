@@ -12,6 +12,27 @@ Nearest2U offers a simple and strong solution to the stressful problem of locati
 
 The entire project proposal including ER, Class, UseCase diagrams and GANTT chart can be found [here](https://liveplymouthac-my.sharepoint.com/:b:/g/personal/10899255_students_plymouth_ac_uk/EWvTmrSFNYVGkapR0tJumRMBLGTMAPALKtdgnnfRoiIemA?e=kNObPj).
 
+## Installation
+
+### Prerequisites
+
+You can skip any you've already done.
+
+- [Node.js](https://nodejs.org) - Go to this website and download the version marked as LTS(Long Term Support). *Check if Node.js is installed by running `node -v` in a terminal/console window.*
+- Code Editor - We are using [Visual Studio Code](https://code.visualstudio.com/).
+- [Git](https://git-scm.com/downloads) - Download and install Git. *You will need it to clone and contribute to the project.*
+- Package Manager - I'm using [pnpm](https://pnpm.js.org/en/installation). You can use npm (Comes default with Node) or yarn if you prefer. *To install pnpm, open a terminal/console window and run `corepack -enable` then `corepack prepare pnpm@latest --activate` If you're on windows and get an error that says "Running scripts is disabled on your system", open PowerShell as administrator and run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`.*
+
+### Clone the repository and install dependencies
+
+1. Copy the link to the repository by clicking the green "Code" button at the top of this page.
+2. Open a terminal/console window and navigate to the folder you want to clone the repository into.
+3. Run `git clone <link>` where `<link>` is the link you copied in step 1.
+4. Navigate into the cloned repository by running `cd nearest2u`.
+5. Open the project in your code editor.
+6. Run `pnpm install` to install all the dependencies.
+7. Run `pnpm run dev` to start the development server.
+
 ## Group 54 Members
 
 - J.A.A. Nethaduna - 10899333 - [JNethaduna](https://github.com/JNethaduna)
