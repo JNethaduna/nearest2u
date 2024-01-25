@@ -18,10 +18,10 @@ The entire project proposal including ER, Class, UseCase diagrams and GANTT char
 
 You can skip any you've already done.
 
-- [Node.js](https://nodejs.org) - Go to this website and download the version marked as LTS(Long Term Support). *Check if Node.js is installed by running `node -v` in a terminal/console window.*
+- [Node.js](https://nodejs.org) - Go to this website and download the version marked as LTS(Long Term Support). _Check if Node.js is installed by running `node -v` in a terminal/console window._
 - Code Editor - We are using [Visual Studio Code](https://code.visualstudio.com/).
-- [Git](https://git-scm.com/downloads) - Download and install Git. *You will need it to clone and contribute to the project.*
-- Package Manager - I'm using [pnpm](https://pnpm.js.org/en/installation). You can use npm (Comes default with Node) or yarn if you prefer. *To install pnpm, open a terminal/console window and run `corepack -enable` then `corepack prepare pnpm@latest --activate` If you're on windows and get an error that says "Running scripts is disabled on your system", open PowerShell as administrator and run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`.*
+- [Git](https://git-scm.com/downloads) - Download and install Git. _You will need it to clone and contribute to the project._
+- Package Manager - I'm using [pnpm](https://pnpm.js.org/en/installation). You can use npm (Comes default with Node) or yarn if you prefer. _To install pnpm, open a terminal/console window and run `corepack -enable` then `corepack prepare pnpm@latest --activate` If you're on windows and get an error that says "Running scripts is disabled on your system", open PowerShell as administrator and run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`._
 
 ### Clone the repository and install dependencies
 
@@ -32,6 +32,18 @@ You can skip any you've already done.
 5. Open the project in your code editor.
 6. Run `pnpm install` to install all the dependencies.
 7. Run `pnpm run dev` to start the development server.
+
+### Workspace
+
+I use VSCode and a few extensions to help me along. They are not required but I recommend installing them as it'll make the process smoother. If you use another editor please refer to a guide for that, as I have no idea.
+
+VSCode Extensions
+
+1. Prettier - Code Formatter
+2. ESLint
+3. Svelte for VSCode
+4. Tailwind CSS IntelliSense
+5. NPM Intellisense
 
 ## Group 54 Members
 
