@@ -2,6 +2,16 @@
 	"name": "nearest2u",
 	"version": "0.0.1",
 	"private": true,
+	"author": {
+		"name": "J.A.A. Nethaduna",
+		"email": "10899333@students.plymouth.ac.uk"
+	},
+	"contributors": [
+		{
+			"name": "M.L. Dolage",
+			"email": "10899255@students.plymouth.ac.uk"
+		}
+	],
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",

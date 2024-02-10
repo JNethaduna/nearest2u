@@ -32,7 +32,7 @@ const stores: Store[] = [
 			type: 'Point',
 			coordinates: [80.0431051857624, 6.818610689705123]
 		},
-		items: [4, 5, 10, 13, 17],
+		items: [4, 5, 10, 13, 17, 1],
 		owner: {
 			nic: '123456789V',
 			verified: true
@@ -45,7 +45,7 @@ const stores: Store[] = [
 			type: 'Point',
 			coordinates: [80.04330903363719, 6.815542630076611]
 		},
-		items: [3, 14, 16, 19, 20],
+		items: [3, 14, 16, 19, 20, 1],
 		owner: {
 			nic: '987654321V',
 			verified: true
@@ -58,7 +58,7 @@ const stores: Store[] = [
 			type: 'Point',
 			coordinates: [80.041099327547, 6.822929622875006]
 		},
-		items: [9, 11, 12, 15, 16],
+		items: [9, 11, 12, 15, 16, 1],
 		owner: {
 			nic: '123456789V',
 			verified: true
@@ -71,7 +71,7 @@ const stores: Store[] = [
 			type: 'Point',
 			coordinates: [80.03855441675455, 6.825516615054354]
 		},
-		items: [1, 5, 8, 13, 12],
+		items: [1, 5, 8, 13, 12, 1],
 		owner: {
 			nic: '987654321V',
 			verified: true
@@ -84,7 +84,7 @@ const stores: Store[] = [
 			type: 'Point',
 			coordinates: [80.03586136689769, 6.825452651029698]
 		},
-		items: [5, 6, 7, 10, 15, 17],
+		items: [5, 6, 7, 10, 15, 17, 1],
 		owner: {
 			nic: '200223401192',
 			verified: true
@@ -97,7 +97,7 @@ const stores: Store[] = [
 			type: 'Point',
 			coordinates: [80.03539300991628, 6.825319783099442]
 		},
-		items: [2, 3, 4, 5, 6, 7, 8, 9, 10],
+		items: [2, 3, 4, 5, 6, 7, 8, 9, 10, 1],
 		owner: {
 			nic: '200223401192',
 			verified: true
@@ -138,17 +138,20 @@ const stores: Store[] = [
  * @param radius - Radius in km
  * @returns
  */
-export function findStoresWithItemInRange(
+export async function findStoresWithItemInRange(
 	itemId: number,
 	origin: location,
 	radius: number
-): Store[] {
-	return findStoresInRadius(origin, radius).filter((store) => store.items.includes(itemId));
+): Promise<Store[]> {
+	return (await findStoresInRadius(origin, radius)).filter((store) => store.items.includes(itemId));
 }
 
-function findStoresInRadius(origin: location, radius: number): Store[] {
-	return stores.filter((store) => {
-		return haversineDistance(origin, store.location) <= radius;
+function findStoresInRadius(origin: location, radius: number): Promise<Store[]> {
+	return new Promise((resolve, reject) => {
+		const storesInRange: Store[] = stores.filter((store) => {
+			return haversineDistance(origin, store.location) <= radius;
+		});
+		storesInRange ? resolve(storesInRange) : reject('No stores found');
 	});
 }
 
