@@ -50,6 +50,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@googlemaps/js-api-loader": "^1.16.2"
+		"@googlemaps/js-api-loader": "^1.16.2",
+		"mongodb": "^6.3.0"
 	}
 }

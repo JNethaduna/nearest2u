@@ -21,7 +21,7 @@ You can skip any you've already done.
 - [Node.js](https://nodejs.org) - Go to this website and download the version marked as LTS(Long Term Support). _Check if Node.js is installed by running `node -v` in a terminal/console window._
 - Code Editor - We are using [Visual Studio Code](https://code.visualstudio.com/).
 - [Git](https://git-scm.com/downloads) - Download and install Git. _You will need it to clone and contribute to the project._
-- Package Manager - This project uses [pnpm](https://pnpm.js.org/en/installation). _To install pnpm, open a terminal/console window and run `corepack -enable` then `corepack prepare pnpm@latest --activate` If you're on windows and get an error that says "Running scripts is disabled on your system", open PowerShell as administrator and run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`. This will allow the current user (you) to run local scripts and scripts signed by a trusted publisher._
+- Package Manager - This project uses [pnpm](https://pnpm.js.org/en/installation). _To install pnpm, open a terminal/console window and run `corepack enable` then `corepack prepare pnpm@latest --activate` If you're on windows and get an error that says "Running scripts is disabled on your system", open PowerShell as administrator and run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`. This will allow the current user (you) to run local scripts and scripts signed by a trusted publisher._
 
 ### Clone the repository and install dependencies
 

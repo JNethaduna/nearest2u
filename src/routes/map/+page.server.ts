@@ -1,17 +1,15 @@
 import type { PageServerLoad } from './$types';
 import { findStoresWithItemInRange } from '$lib/database/stores';
 import { env } from '$env/dynamic/private';
+import { getLocation } from '$lib/server/database/locations';
 
-export const load: PageServerLoad = async ({ url }) => {
+export const load: PageServerLoad = async ({ url, locals }) => {
 	const URL = 'https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix';
 
 	const itemId = url.searchParams.get('item');
-	const origin: location = JSON.parse(url.searchParams.get('origin') || '{}') || {
-		type: 'Point',
-		coordinates: [80.0431051857624, 6.818610689705123]
-	};
+	const origin: location = getLocation(locals.session.id);
 
-	const stores: Store[] = await findStoresWithItemInRange(Number(itemId), origin, 100000);
+	const stores: Store[] = await findStoresWithItemInRange(Number(itemId), origin, 10000);
 
 	const response = await fetch(
 		URL,
@@ -22,9 +20,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	);
 	const data = await response.json();
 	return {
-		props: {
-			data
-		}
+		stores: getTopStores(data, stores)
 	};
 };
 
@@ -61,4 +57,20 @@ function createGMapRequest(origin: location, destinations: location[]) {
 			})
 		})
 	};
+}
+
+function getTopStores(
+	data: [
+		{
+			destinationIndex: number;
+			duration: number;
+			distanceMeters: number;
+		}
+	],
+	stores: Store[]
+) {
+	return data
+		.sort((a, b) => a.distanceMeters - b.distanceMeters)
+		.slice(0, 5)
+		.map((item) => stores[item.destinationIndex]);
 }
