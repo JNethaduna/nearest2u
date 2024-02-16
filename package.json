@@ -31,6 +31,7 @@
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "8.56.0",
 		"@types/google.maps": "^3.55.3",
+		"@types/mapbox-gl": "^2.7.21",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"autoprefixer": "^10.4.17",
@@ -52,6 +53,7 @@
 	"type": "module",
 	"dependencies": {
 		"@googlemaps/js-api-loader": "^1.16.2",
+		"mapbox-gl": "^3.1.2",
 		"mongodb": "^6.3.0"
 	}
 }
