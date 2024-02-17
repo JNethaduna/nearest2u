@@ -2,27 +2,28 @@
 	import * as googlemaps from '@googlemaps/js-api-loader';
 	import { onMount } from 'svelte';
 
-	let map: google.maps.Map | undefined;
-	let mapContainer: HTMLDivElement;
+	// Props
 	export let mapOptions: google.maps.MapOptions;
 	export let markers: { lat: number; lng: number; title: string }[];
+	export let directions: boolean;
 
-	onMount(() => {
+	let map: google.maps.Map | null;
+	let mapContainer: HTMLDivElement;
+
+	onMount(async () => {
+		// TODO: Hide this at some point maybe
 		const loader = new googlemaps.Loader({
 			apiKey: 'AIzaSyCxDlEE3BUZ-r5dXi5JPJMm5Snr5kwe-e4',
 			version: 'weekly'
 		});
 
-		loader
-			.importLibrary('maps')
-			.then(({ Map }) => {
-				map = new Map(mapContainer, mapOptions);
-			})
-			.catch((e) => {
-				// do something
-			});
+		// Map
+		const { Map } = await loader.importLibrary('maps');
+		map = new Map(mapContainer, mapOptions);
 
-		loader.importLibrary('marker').then(({ Marker }) => {
+		// Markers
+		if (markers) {
+			const { Marker } = await loader.importLibrary('marker');
 			markers.map((marker) => {
 				new Marker({
 					position: { lat: marker.lat, lng: marker.lng },
@@ -30,7 +31,47 @@
 					title: marker.title
 				});
 			});
-		});
+		}
+
+		// Directions
+		if (markers && directions) {
+			const { DirectionsService, DirectionsRenderer } = await loader.importLibrary('routes');
+			const directionsService = new DirectionsService();
+
+			const originLat = (mapOptions.center?.lat as number) || 0;
+			const originLng = (mapOptions.center?.lng as number) || 0;
+
+			markers.toReversed().map((marker, index) => {
+				let directionsRenderer: google.maps.DirectionsRenderer;
+				index === markers.length - 1
+					? (directionsRenderer = new DirectionsRenderer({
+							polylineOptions: {
+								strokeColor: '#00FF00',
+								strokeOpacity: 1,
+								strokeWeight: 5
+							},
+							suppressMarkers: true
+						}))
+					: (directionsRenderer = new DirectionsRenderer({
+							suppressMarkers: true
+						}));
+				directionsRenderer.setMap(map);
+				directionsService.route(
+					{
+						origin: { lat: originLat, lng: originLng },
+						destination: { lat: marker.lat, lng: marker.lng },
+						travelMode: google.maps.TravelMode.WALKING
+					},
+					(response, status) => {
+						if (status === 'OK') {
+							directionsRenderer.setDirections(response);
+						} else {
+							window.alert('Directions request failed due to ' + status);
+						}
+					}
+				);
+			});
+		}
 	});
 </script>
 
