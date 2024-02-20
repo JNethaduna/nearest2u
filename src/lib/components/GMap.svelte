@@ -4,12 +4,14 @@
 
 	// Props
 	export let mapOptions: google.maps.MapOptions;
-	export let markers: { lat: number; lng: number; title: string }[];
+	//export let markers: { lat: number; lng: number; title: string }[];
+	export let markers: { storecoords: { name: string; lat: number; lng: number; }; distance: number; duration: number; }[];
 	export let directions: boolean;
-
+	
 	let map: google.maps.Map | null;
 	let mapContainer: HTMLDivElement;
-
+	let googleMarkers: google.maps.Marker[] = [];
+	
 	onMount(async () => {
 		// TODO: Hide this at some point maybe
 		const loader = new googlemaps.Loader({
@@ -20,17 +22,38 @@
 		// Map
 		const { Map } = await loader.importLibrary('maps');
 		map = new Map(mapContainer, mapOptions);
+		//this is to remove the icons on map
+		map.setOptions({ fullscreenControl: false,mapTypeControl: false });
 
 		// Markers
 		if (markers) {
 			const { Marker } = await loader.importLibrary('marker');
 			markers.map((marker) => {
-				new Marker({
-					position: { lat: marker.lat, lng: marker.lng },
+				const duration = marker.duration;
+   				const distance = marker.distance;
+				const googleMarker = new Marker({
+					position: { lat: marker.storecoords.lat, lng: marker.storecoords.lng},
 					map,
-					title: marker.title
+					title:  marker.storecoords.name,
+					icon: {
+                        url: '/shopping.png', 
+                        scaledSize: new google.maps.Size(64, 64), 
+                        },
+						
+				});
+				googleMarkers.push(googleMarker);
+
+				// creates info window 
+				const infoWindow = new google.maps.InfoWindow({
+					content: `<div>Duration: ${duration} </div><div>Distance:${distance}</div>`
+				});
+
+				// makes marker clickable
+				googleMarker.addListener('click', () => {
+					infoWindow.open(map, googleMarker);
 				});
 			});
+			
 		}
 
 		// Directions
@@ -59,7 +82,10 @@
 				directionsService.route(
 					{
 						origin: { lat: originLat, lng: originLng },
-						destination: { lat: marker.lat, lng: marker.lng },
+						destination: {
+    lat: marker.storecoords.lat ,
+    lng: marker.storecoords.lng 
+},
 						travelMode: google.maps.TravelMode.WALKING
 					},
 					(response, status) => {
