@@ -1,18 +1,90 @@
 <script lang="ts">
+	import * as googlemaps from '@googlemaps/js-api-loader';
 	import GMap from '$lib/components/GMap.svelte';
+	import { onMount } from 'svelte';
+	import { geoJsonToLatLng } from '$lib/helpers';
 
-	const mapOptions = {
+	let mapOptions = {
 		center: { lat: 6.821314369940506, lng: 80.04144677117178 },
 		zoom: 17
 	};
 
-	const markers = [
-		{ lat: 6.823361882144782, lng: 80.04176408129187, title: 'Store 1' },
-		{ lat: 6.825290043183253, lng: 80.0406053670629, title: 'Store 2' },
-		{ lat: 6.825516615054354, lng: 80.03855441675455, title: 'Store 6' },
-		{ lat: 6.825319783099442, lng: 80.03539300991628, title: 'Store 8' },
-		{ lat: 6.82118274432534, lng: 80.04054729144617, title: 'Store 10' }
-	];
+	let markers: {
+		name: string;
+		location: google.maps.LatLngLiteral;
+		distance: google.maps.Distance;
+		duration: google.maps.Duration;
+	}[];
+
+	onMount(async () => {
+		// Get the user origin from the browser later
+		const origin: location = {
+			type: 'Point',
+			coordinates: [80.04144677117178, 6.821314369940506]
+		};
+
+		// Get the stores closeby from API endpoint (Returns every store in radius)
+		const stores: {
+			name: string;
+			location: google.maps.LatLngLiteral;
+		}[] = await getStores(origin, 1);
+
+		// Load the Google Maps API
+		const loader = new googlemaps.Loader({
+			apiKey: 'AIzaSyCxDlEE3BUZ-r5dXi5JPJMm5Snr5kwe-e4',
+			version: 'weekly'
+		});
+
+		// Distance Matrix to get the closest stores within the radius
+		const { DistanceMatrixService } = await loader.importLibrary('routes');
+		const service = new DistanceMatrixService();
+
+		service.getDistanceMatrix(
+			{
+				origins: [geoJsonToLatLng(origin)],
+				destinations: stores.map((store) => store.location),
+				travelMode: google.maps.TravelMode.DRIVING,
+				unitSystem: google.maps.UnitSystem.METRIC
+			},
+			(response) => {
+				if (response) {
+					markers = addDistanceToStores(stores, response.rows[0].elements);
+					console.log(markers);
+				}
+			}
+		);
+	});
+
+	async function getStores(origin: location, itemId: number) {
+		const response = await fetch('/api/get-stores', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				itemId: itemId,
+				origin: origin
+			})
+		});
+		const data = await response.json();
+		return data;
+	}
+
+	function addDistanceToStores(
+		stores: {
+			name: string;
+			location: google.maps.LatLngLiteral;
+		}[],
+		distances: google.maps.DistanceMatrixResponseElement[]
+	) {
+		return stores.map((store, index) => {
+			return {
+				...store,
+				distance: distances[index].distance as google.maps.Distance,
+				duration: distances[index].duration as google.maps.Duration
+			};
+		});
+	}
 </script>
 
 <GMap {mapOptions} {markers} directions={true} />
