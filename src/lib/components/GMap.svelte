@@ -2,19 +2,25 @@
 	import * as googlemaps from '@googlemaps/js-api-loader';
 	import { onMount } from 'svelte';
 
+	// Types
+	type marker = {
+		name: string;
+		location: google.maps.LatLngLiteral;
+		distance: google.maps.Distance;
+		duration: google.maps.Duration;
+	};
+
 	// Props
 	export let mapOptions: google.maps.MapOptions;
-	//export let markers: { lat: number; lng: number; title: string }[];
-	export let markers: { storecoords: { name: string; lat: number; lng: number; }; distance: number; duration: number; }[];
+	export let markers: marker[];
 	export let directions: boolean;
-	
+
 	let map: google.maps.Map | null;
 	let mapContainer: HTMLDivElement;
-	let googleMarkers: google.maps.Marker[] = [];
-	
+	let loader: googlemaps.Loader | null;
+
 	onMount(async () => {
-		// TODO: Hide this at some point maybe
-		const loader = new googlemaps.Loader({
+		loader = new googlemaps.Loader({
 			apiKey: 'AIzaSyCxDlEE3BUZ-r5dXi5JPJMm5Snr5kwe-e4',
 			version: 'weekly'
 		});
@@ -22,28 +28,34 @@
 		// Map
 		const { Map } = await loader.importLibrary('maps');
 		map = new Map(mapContainer, mapOptions);
-		//this is to remove the icons on map
-		map.setOptions({ fullscreenControl: false,mapTypeControl: false });
+	});
 
-		// Markers
+	$: {
 		if (markers) {
+			renderMarkers();
+			if (directions) {
+				renderDirections();
+			}
+		}
+	}
+
+	async function renderMarkers() {
+		if (loader) {
 			const { Marker } = await loader.importLibrary('marker');
 			markers.map((marker) => {
-				const duration = marker.duration;
-   				const distance = marker.distance;
+				const duration = marker.duration.text;
+				const distance = marker.distance.text;
 				const googleMarker = new Marker({
-					position: { lat: marker.storecoords.lat, lng: marker.storecoords.lng},
+					position: { lat: marker.location.lat, lng: marker.location.lng }, // Changed storecoords to location
 					map,
-					title:  marker.storecoords.name,
+					title: marker.name,
 					icon: {
-                        url: '/shopping.png', 
-                        scaledSize: new google.maps.Size(64, 64), 
-                        },
-						
+						url: '/shopping.png',
+						scaledSize: new google.maps.Size(64, 64)
+					}
 				});
-				googleMarkers.push(googleMarker);
 
-				// creates info window 
+				// creates info window
 				const infoWindow = new google.maps.InfoWindow({
 					content: `<div>Duration: ${duration} </div><div>Distance:${distance}</div>`
 				});
@@ -53,11 +65,11 @@
 					infoWindow.open(map, googleMarker);
 				});
 			});
-			
 		}
+	}
 
-		// Directions
-		if (markers && directions) {
+	async function renderDirections() {
+		if (loader) {
 			const { DirectionsService, DirectionsRenderer } = await loader.importLibrary('routes');
 			const directionsService = new DirectionsService();
 
@@ -83,9 +95,9 @@
 					{
 						origin: { lat: originLat, lng: originLng },
 						destination: {
-    lat: marker.storecoords.lat ,
-    lng: marker.storecoords.lng 
-},
+							lat: marker.location.lat, // Changed storecoords to location
+							lng: marker.location.lng // Changes storecoords to location
+						},
 						travelMode: google.maps.TravelMode.WALKING
 					},
 					(response, status) => {
@@ -98,7 +110,7 @@
 				);
 			});
 		}
-	});
+	}
 </script>
 
 <div>

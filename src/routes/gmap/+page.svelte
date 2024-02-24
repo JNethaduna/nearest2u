@@ -6,7 +6,10 @@
 
 	let mapOptions = {
 		center: { lat: 6.821314369940506, lng: 80.04144677117178 },
-		zoom: 17
+		zoom: 17,
+		fullscreenControl: false,
+		mapTypeControl: false,
+		streetViewControl: false
 	};
 
 	let markers: {
@@ -48,8 +51,9 @@
 			},
 			(response) => {
 				if (response) {
-					markers = addDistanceToStores(stores, response.rows[0].elements);
-					console.log(markers);
+					markers = addDistanceToStores(stores, response.rows[0].elements)
+						.toSorted((a, b) => a.duration.value - b.duration.value)
+						.slice(0, 5);
 				}
 			}
 		);
