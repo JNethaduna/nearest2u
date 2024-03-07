@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import type { ObjectId } from 'mongodb';
 
 	let query: string = '';
-	let searchHistory: string[] = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
-	let items: string[] = [];
+	let searchHistory: Item[] = [];
+	let items: Item[] = [];
 
 	// Auto-compelete items
 	$: {
@@ -19,18 +20,12 @@
 	}
 
 	// Locate an item
-	async function locateItem(itemId: number) {
+	async function locateItem(itemId: ObjectId) {
 		const location = await getUserLocation();
 
 		if (location) {
-			fetch('/api/set-location', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(location)
-			});
-			goto(`/map?item=${encodeURIComponent(itemId)}`);
+			sessionStorage.setItem('location', JSON.stringify(location));
+			goto(`/map?itemId=${itemId}`);
 		}
 	}
 
@@ -75,11 +70,11 @@
 		{#each items as item}
 			<button
 				on:click={() => {
-					locateItem(1);
+					locateItem(item._id);
 				}}
 				class="w-full cursor-pointer border-b-2 bg-white p-2 text-left first-of-type:rounded-t-sm last-of-type:rounded-b-sm last-of-type:border-b-0 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
 			>
-				{item}
+				{item.name}
 			</button>
 		{/each}
 	</div>

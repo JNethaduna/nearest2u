@@ -1,5 +1,7 @@
+type ObjectId = import('mongodb').ObjectId;
+
 interface Item {
-	id: number;
+	_id: ObjectId;
 	name: string;
 	brand: string;
 	price: number;
@@ -7,17 +9,17 @@ interface Item {
 }
 
 interface Store {
-	id: number;
+	_id: ObjectId;
 	name: string;
-	location: location;
-	items: number[];
+	geometry: GeoJSON;
+	items: [{ item: ObjectId; quantity: number }];
 	owner: {
 		nic: string;
 		verified: boolean;
 	};
 }
 
-interface location {
+interface GeoJSON {
 	type: string;
 	coordinates: [number, number];
 }
