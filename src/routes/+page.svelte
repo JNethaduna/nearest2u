@@ -1,5 +1,3 @@
-<script lang="ts"></script>
-
 <body class="flex min-h-svh flex-col justify-center align-middle">
 	<h1 class="mb-32 text-center text-3xl text-primary-500">Nearest2U</h1>
 	<nav class="mx-10 flex flex-col gap-10 text-center">

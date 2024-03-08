@@ -72,7 +72,7 @@
 				on:click={() => {
 					locateItem(item._id);
 				}}
-				class="w-full cursor-pointer border-b-2 bg-white p-2 text-left first-of-type:rounded-t-sm last-of-type:rounded-b-sm last-of-type:border-b-0 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+				class="variant-filled-primary btn w-full cursor-pointer border-b-2 text-left first-of-type:rounded-t-sm last-of-type:rounded-b-sm last-of-type:border-b-0"
 			>
 				{item.name}
 			</button>

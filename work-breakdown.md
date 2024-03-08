@@ -21,7 +21,7 @@
 }
 ```
 
-### Item Search Endpoint ("$lib/api/search?string=xxxx")
+### Item Search Endpoint ("/api/search-item?query=xxxx")
 
 - Accepts a string from ("/search").
 - Performs full-text search on JSON objects.
@@ -45,7 +45,7 @@
 }
 ```
 
-### Locate Item Endpoint ("$lib/api/locate")
+### Locate Item Endpoint ("/api/locate-item")
 
 - Accepts an item id and a user's origin.
 - Returns nearest coordinates to obtain the item relative to the origin (Check the displacement to the stores that have the item, take the closest 5).
@@ -72,7 +72,7 @@
 }
 ```
 
-### Map Page ("/nearest/map")
+### Map Page ("/map")
 
 - Accepts an origin and multiple destinations (Refer to "$lib/api/locate" for structure).
 - Displays path to destinations on a map.
@@ -81,24 +81,24 @@
 
 ## Store Functionality
 
-### Store Registration Page ("/store/register")
+### Store Registration Page ("/register/store")
 
-- Sends form data to the endpoint (POST to "$lib/api/store/register").
+- Sends form data to the endpoint (Use SvelteKit form actions send to +page.server.ts).
 - Collects store name, email, password, location, and owner NIC.
 - Uses JS form Validation.
 - Displays error messages for invalid inputs.
 
 ### Register Store Endpoint
 
-- Takes data from "/store/register".
+- Takes data from "/register/store".
 - Validates the data again.
 - Hashes the password using Argon2id (Read the documentation on how to use it).
-- Adds data to the database (For now its "$lib/data/stores.js").
+- Adds data to the database (Function from "$lib/server/database/stores.ts").
 - Response can be OK for success, or Error for invalid inputs.
 
 ### Store Login Page
 
-- Sends form data to endpoint (POST to "$lib/api/store/login").
+- Sends form data to endpoint (Use SvelteKit form actions send to +page.server.ts).
 - Collects store email and password.
 - Uses JS form Validation.
 - Displays error messages for invalid inputs.
@@ -107,7 +107,7 @@
 
 - Takes data from "/store/login"
 - Validates the data again.
-- Matches the hashed password against the one in the database (For now its "$lib/data/stores.js").
+- Matches the hashed password against the one in the database (Function from "$lib/server/database/stores.ts").
 - Response can be OK for success, or Error for invalid inputs.
 
 ### Manage Store Page (For store owner)
@@ -117,6 +117,6 @@
 - Options to Add Items, Set Store Status, Update Store Details.
 - Cannot add items or set status if unverified.
 - Lists the products currently being sold by the shop with an option to update their stock.
-- Refer to "$lib/data/stores.js" for structure and data.
+- Refer to "$lib/server/database/stores.ts" for structure and data.
 
 ## More functionality details will be added as the project goes on
