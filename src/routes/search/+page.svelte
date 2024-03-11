@@ -58,24 +58,24 @@
 	}
 </script>
 
-<div class="flex flex-col">
-	<h1 class="my-16 text-center text-3xl text-rose-700">Nearest2U</h1>
-	<input
-		class="mx-7 mt-5 rounded-sm p-2 text-xl shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-600"
-		type="text"
-		bind:value={query}
-		placeholder="Search for an item"
-	/>
-	<div class="mx-7 my-1 text-red-700">
+<body class="min-h-svh">
+	<h1 class="my-4 text-center text-2xl text-primary-500">nearest2u</h1>
+	<div class="mx-7 mt-32 flex flex-grow flex-col justify-center rounded-md border border-black">
+		<input
+			class="rounded-t-md text-lg {query ? 'rounded-b-none' : 'rounded-b-md'}"
+			type="text"
+			bind:value={query}
+			placeholder="Search for an item"
+		/>
 		{#each items as item}
 			<button
 				on:click={() => {
 					locateItem(item._id);
 				}}
-				class="variant-filled-primary btn w-full cursor-pointer border-b-2 text-left first-of-type:rounded-t-sm last-of-type:rounded-b-sm last-of-type:border-b-0"
+				class="btn justify-start rounded-none border-t last-of-type:rounded-b-md"
 			>
-				{item.name}
+				{item.name} ({item.brand})
 			</button>
 		{/each}
 	</div>
-</div>
+</body>
