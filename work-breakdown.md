@@ -119,4 +119,12 @@
 - Lists the products currently being sold by the shop with an option to update their stock.
 - Refer to "$lib/server/database/stores.ts" for structure and data.
 
+### Store Verify Page (For Store Owner)
+
+- In /store/verify.
+- Interface for user to upload a picture of their identity card.
+- Both sides of the card are required.
+- Screenshots should not be accepted.
+- Should send the data to the page.server.ts file.
+
 ## More functionality details will be added as the project goes on

@@ -2,7 +2,7 @@
 	import { Map, Marker } from '@beyonk/svelte-mapbox';
 
 	const accessToken =
-		'pk.eyJ1IjoiYXNobnRoIiwiYSI6ImNsc282YW9hMzBieXkybW5zOXF3YWgyMWMifQ.l54caXaNFKAtBj1n_CFm8w';
+		'pk.eyJ1IjoiYXNobnRoIiwiYSI6ImNsdG4wNzAzaTAxaTcyam1waDAyYmh6c3AifQ.E3KQ_5fS0Fc63kEIh0IIRQ';
 	const center: [number, number] = [80.04144677117178, 6.821314369940506];
 	const zoom = 18;
 	const markers: GeoJSON[] = [
