@@ -132,7 +132,7 @@
 - In /store/verify/+page.server.ts
 - Use data from Store Verify Page.
 - Use Svelte Actions
-- Verify the data sent (If it's an image and any other data sent)
+- Verify the data sent (If it's an image and any other data sent appropriately)
 - The backend should store the image as a file in the file DB and create an entry that can be viewed by an admin in the mongodb database.
 - Create the MongoDB function needed (You can use the client and connection functions exported from $lib/server/service/mongodb.ts).
 - You may use an appropriate data structure to store the entries (Entries should be indentifiable from each other with the store owner that submitted it and the image they submitted).
