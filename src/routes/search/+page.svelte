@@ -20,7 +20,7 @@
 	}
 
 	// Locate an item
-	async function locateItem(itemId: ObjectId) {
+	async function locateItem(itemId: ObjectId | string) {
 		const location = await getUserLocation();
 
 		if (location) {
