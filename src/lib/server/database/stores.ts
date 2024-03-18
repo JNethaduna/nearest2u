@@ -8,19 +8,29 @@ async function init() {
 	stores = getCollection('stores');
 }
 
+export async function findStore(storeId: ObjectId): Promise<Store | null> {
+	if (!stores) await init();
+	const store: Document | null = await stores!.findOne({ _id: storeId });
+	console.log('Store:', store);
+	return store ? (store as Store) : null;
+}
+
 export async function findStoresWithItemInRange(
 	itemId: ObjectId,
 	origin: GeoJSON,
 	radius: number
 ): Promise<Store[]> {
 	if (!stores) await init();
+	if (!origin) {
+		throw new Error('Origin is required');
+	}
 	const pipeline = [
 		{
 			$search: {
 				index: 'store-locator',
 				near: {
 					path: 'geometry',
-					origin,
+					origin: origin,
 					pivot: radius
 				}
 			}
@@ -29,7 +39,7 @@ export async function findStoresWithItemInRange(
 			$match: {
 				items: {
 					$elemMatch: {
-						item: itemId
+						_id: itemId
 					}
 				}
 			}
@@ -46,8 +56,6 @@ export async function findStoresWithItemInRange(
 		}
 	];
 	const result = (await stores!.aggregate(pipeline).toArray()) as Store[];
-	console.log('Result:');
-	console.log(result);
 	return result;
 }
 
@@ -87,5 +95,32 @@ export async function changeItemCount(
 ): Promise<void> {
 	await stores!.updateOne({ _id: storeId, 'items.item': itemId }, {
 		$inc: { 'items.$.quantity': quantity }
+	} as Document);
+}
+
+export async function addToInventory(
+	storeId: ObjectId,
+	item: {
+		item: ObjectId;
+		quantity: number;
+	}
+): Promise<void> {
+	try {
+		const store = await stores!.findOne({ _id: storeId, 'items.item': item.item });
+		if (store) {
+			// If the item already exists in the store's item list, increment the count
+			await changeItemCount(storeId, item.item, item.quantity);
+		} else {
+			// If the item doesn't exist in the store's item list, add it with a count of 1
+			await addItemToStore(storeId, { item: item.item, quantity: item.quantity });
+		}
+	} catch (e) {
+		console.error(e);
+	}
+}
+
+export async function verifyOwner(storeId: ObjectId): Promise<void> {
+	await stores!.updateOne({ _id: storeId }, {
+		$set: { 'owner.verified': true }
 	} as Document);
 }

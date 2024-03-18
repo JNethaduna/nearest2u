@@ -1,10 +1,11 @@
 <script lang="ts">
+	import type { PageData } from './$types';
 	import StoreIcon from '$lib/images/store.svelte';
-	let name = 'Lanka Mills';
-	let location = {
-		type: 'Point',
-		coordinates: [80.2707, 13.0827]
-	};
+
+	export let data: PageData;
+	console.log(data);
+	let store = data.props?.store;
+
 	let open = true;
 	let close = () => {
 		open = !open;
@@ -17,10 +18,10 @@
 		<div class="mb-3 flex items-center justify-between">
 			<StoreIcon />
 			<div>
-				<h3 class="h2 text-primary-500">{name}</h3>
-				<p class="pl-1 text-sm text-surface-600">{location.coordinates[1]}</p>
+				<h3 class="h2 text-primary-500">{store?.name}</h3>
+				<p class="pl-1 text-sm text-surface-600">{store?.geometry?.coordinates[1]}</p>
 				<p class="pl-1 text-sm text-surface-600">
-					{location.coordinates[0]}
+					{store?.geometry?.coordinates[0]}
 				</p>
 			</div>
 		</div>

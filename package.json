@@ -65,6 +65,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@auth/sveltekit": "^0.14.0",
 		"@googlemaps/js-api-loader": "^1.16.6",
 		"mapbox-gl": "^3.2.0",
 		"mongodb": "^6.4.0"
