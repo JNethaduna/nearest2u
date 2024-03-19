@@ -1,5 +1,6 @@
 <script lang="ts">
-	let storeLocation = '';
+	let storeLocationLat = 0;
+	let storeLocationLng = 0;
 </script>
 
 <body class="flex h-svh w-full flex-col items-center justify-center">
@@ -49,15 +50,16 @@
 			</label>
 			<label class="label my-2">
 				<span>Store Location</span>
-				<input name="location" type="text" hidden bind:value={storeLocation} required />
+				<input name="locationLat" type="hidden" bind:value={storeLocationLat} required />
+				<input name="locationLng" type="hidden" bind:value={storeLocationLng} required />
 				<input
 					type="button"
 					class="variant-form-material btn w-full cursor-pointer"
 					value="Click to set your store location"
 				/>
 			</label>
-			<button type="submit" class="variant-outline-primary btn mt-10 w-full"
-				>Create your Store
+			<button type="submit" class="variant-outline-primary btn mt-10 w-full">
+				Create your Store
 			</button>
 		</form>
 	</main>
