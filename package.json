@@ -41,8 +41,10 @@
 		"@sveltejs/kit": "^2.5.2",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",
 		"@tailwindcss/forms": "^0.5.7",
+		"@types/bcryptjs": "^2.4.6",
 		"@types/eslint": "8.56.0",
 		"@types/google.maps": "^3.55.4",
+		"@types/jsonwebtoken": "^9.0.6",
 		"@types/mapbox-gl": "^2.7.21",
 		"@types/node": "^20.11.24",
 		"@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -67,6 +69,9 @@
 	"dependencies": {
 		"@auth/sveltekit": "^0.14.0",
 		"@googlemaps/js-api-loader": "^1.16.6",
+		"bcryptjs": "^2.4.3",
+		"cookie": "^0.6.0",
+		"jsonwebtoken": "^9.0.2",
 		"mapbox-gl": "^3.2.0",
 		"mongodb": "^6.4.0"
 	}

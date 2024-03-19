@@ -1,19 +1,19 @@
-// import type { Handle } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit';
+import jwt from 'jsonwebtoken';
 
-// export const handle: Handle = async ({ event, resolve }) => {
-// 	// Set a session cookie to identify the user
-// 	const cookies = event.cookies;
-// 	let sessionId = cookies.get('sessionId');
-// 	if (!sessionId) {
-// 		sessionId = crypto.randomUUID();
-// 	}
-// 	event.locals.session = { id: sessionId };
+export const handle: Handle = async ({ event, resolve }) => {
+	const cookies = event.cookies;
+	const token = cookies.get('auth');
 
-// 	const response = await resolve(event);
-// 	response.headers.set(
-// 		'set-cookie',
-// 		`sessionId=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Secure;`
-// 	);
+	if (token) {
+		try {
+			const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+			event.locals.user = decoded;
+		} catch (e) {
+			console.error('Invalid token');
+		}
+	}
 
-// 	return response;
-// };
+	const response = await resolve(event);
+	return response;
+};

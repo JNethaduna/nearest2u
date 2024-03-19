@@ -1,5 +1,6 @@
 import type { Document, ObjectId, Collection } from 'mongodb';
 import { connect, getCollection } from '$lib/server/service/mongodb';
+import bcrypt from 'bcryptjs';
 
 let stores: Collection | null = null;
 
@@ -59,9 +60,17 @@ export async function findStoresWithItemInRange(
 	return result;
 }
 
-export async function addStore(name: string, geometry: GeoJSON, ownerNIC: string): Promise<void> {
+export async function addStore(
+	email: string,
+	password: string,
+	name: string,
+	geometry: GeoJSON,
+	ownerNIC: string
+): Promise<void> {
 	if (!stores) await init();
 	const store = {
+		email,
+		password: await bcrypt.hash(password, 10),
 		name,
 		geometry,
 		items: [],
@@ -71,7 +80,8 @@ export async function addStore(name: string, geometry: GeoJSON, ownerNIC: string
 		}
 	};
 	try {
-		await stores!.insertOne(store);
+		const result = await stores!.insertOne(store);
+		console.log('Store added:', result.insertedId);
 	} catch (e) {
 		console.error(e);
 	}
@@ -123,4 +133,10 @@ export async function verifyOwner(storeId: ObjectId): Promise<void> {
 	await stores!.updateOne({ _id: storeId }, {
 		$set: { 'owner.verified': true }
 	} as Document);
+}
+
+export async function findStoreWithEmail(email: string): Promise<Store | null> {
+	if (!stores) await init();
+	const store: Document | null = await stores!.findOne({ email });
+	return store ? (store as Store) : null;
 }

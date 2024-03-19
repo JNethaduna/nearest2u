@@ -18,7 +18,13 @@ export const load: PageServerLoad = async () => {
 								quantity: item.quantity
 							};
 						})
-					: []
+					: [],
+				status: {
+					openingTime: '08:00:00',
+					closingTime: '20:00:00',
+					manuallySet: false,
+					setValue: false
+				}
 			}
 		}
 	};
