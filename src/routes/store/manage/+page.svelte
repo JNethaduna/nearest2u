@@ -3,7 +3,6 @@
 	import StoreIcon from '$lib/images/store.svelte';
 
 	export let data: PageData;
-	console.log(data);
 	let store = data.props?.store;
 
 	let open = true;

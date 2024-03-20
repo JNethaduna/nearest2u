@@ -17,7 +17,6 @@ export const actions = {
 				parseFloat(data.get('locationLat') as string)
 			]
 		} as GeoJSON;
-		console.log(location);
 		const nic = data.get('nic') as string;
 
 		try {
