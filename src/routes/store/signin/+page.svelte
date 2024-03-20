@@ -1,8 +1,9 @@
-<script lang="ts"></script>
+<script lang="ts">
+</script>
 
 <main>
 	<form method="POST" class="mx-5 rounded-md p-2 shadow-md">
-		<h1 class="mb-5 text-center">Create your Store</h1>
+		<h1 class="mb-5 text-center">Sign in to manage your store</h1>
 		<label class="label my-2">
 			<span>Email</span>
 			<input

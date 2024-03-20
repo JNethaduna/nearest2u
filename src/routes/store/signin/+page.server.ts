@@ -2,6 +2,8 @@ import type { Actions } from './$types';
 import { findStoreWithEmail } from '$lib/server/database/stores';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '$env/static/private';
+import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	default: async ({ cookies, request }) => {
@@ -36,7 +38,7 @@ export const actions = {
 				}
 			};
 
-			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1d' });
+			const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1d' });
 
 			cookies.set('auth', token, {
 				httpOnly: true,
@@ -45,15 +47,15 @@ export const actions = {
 				maxAge: 60 * 60 * 24,
 				path: '/'
 			});
-
-			return {
-				status: 200,
-				body: {
-					message: 'Authentication successful'
-				}
-			};
 		} catch (e) {
 			console.error(e);
+			return {
+				status: 500,
+				body: {
+					error: 'Internal server error'
+				}
+			};
 		}
+		redirect(302, '/store/manage');
 	}
 } satisfies Actions;

@@ -66,7 +66,7 @@ export async function addStore(
 	name: string,
 	geometry: GeoJSON,
 	ownerNIC: string
-): Promise<void> {
+): Promise<ObjectId> {
 	if (!stores) await init();
 	const store = {
 		email,
@@ -81,9 +81,10 @@ export async function addStore(
 	};
 	try {
 		const result = await stores!.insertOne(store);
-		console.log('Store added:', result.insertedId);
+		return result.insertedId;
 	} catch (e) {
 		console.error(e);
+		throw e;
 	}
 }
 

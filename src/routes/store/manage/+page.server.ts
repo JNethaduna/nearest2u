@@ -2,8 +2,8 @@ import type { PageServerLoad } from './$types';
 import { ObjectId } from 'mongodb';
 import { findStore } from '$lib/server/database/stores';
 
-export const load: PageServerLoad = async () => {
-	const storeId = new ObjectId('65e2ae4f84b83234c1460676');
+export const load: PageServerLoad = async ({ locals }) => {
+	const storeId = new ObjectId(locals.user.user.id as string);
 	const store = await findStore(storeId);
 	return {
 		props: {
