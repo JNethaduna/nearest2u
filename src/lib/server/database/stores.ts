@@ -12,7 +12,6 @@ async function init() {
 export async function findStore(storeId: ObjectId): Promise<Store | null> {
 	if (!stores) await init();
 	const store: Document | null = await stores!.findOne({ _id: storeId });
-	console.log('Store:', store);
 	return store ? (store as Store) : null;
 }
 
@@ -90,7 +89,7 @@ export async function addStore(
 
 export async function addItemToStore(
 	storeId: ObjectId,
-	item: { item: ObjectId; quantity: number }
+	item: { _id: ObjectId; quantity: number }
 ): Promise<void> {
 	await stores!.updateOne({ _id: storeId }, {
 		$push: {
@@ -104,9 +103,26 @@ export async function changeItemCount(
 	itemId: ObjectId,
 	quantity: number
 ): Promise<void> {
-	await stores!.updateOne({ _id: storeId, 'items.item': itemId }, {
+	await stores!.updateOne({ _id: storeId, 'items._id': itemId }, {
 		$inc: { 'items.$.quantity': quantity }
 	} as Document);
+}
+
+export async function getInventory(storeId: ObjectId): Promise<
+	{
+		_id: ObjectId;
+		quantity: number;
+	}[]
+> {
+	if (!stores) await init();
+	const inventory = (await stores!.findOne(
+		{ _id: storeId },
+		{ projection: { items: 1 } }
+	)) as Document;
+	return inventory.items as {
+		_id: ObjectId;
+		quantity: number;
+	}[];
 }
 
 export async function addToInventory(
@@ -117,13 +133,13 @@ export async function addToInventory(
 	}
 ): Promise<void> {
 	try {
-		const store = await stores!.findOne({ _id: storeId, 'items.item': item.item });
+		const store = await stores!.findOne({ _id: storeId, 'items._id': item.item });
 		if (store) {
 			// If the item already exists in the store's item list, increment the count
 			await changeItemCount(storeId, item.item, item.quantity);
 		} else {
 			// If the item doesn't exist in the store's item list, add it with a count of 1
-			await addItemToStore(storeId, { item: item.item, quantity: item.quantity });
+			await addItemToStore(storeId, { _id: item.item, quantity: item.quantity });
 		}
 	} catch (e) {
 		console.error(e);
