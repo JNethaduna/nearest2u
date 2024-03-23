@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import type { ObjectId } from 'mongodb';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 
 	let query: string = '';
-	let searchHistory: Item[] = [];
+	let searchHistory: Item[] = data.props?.history ?? [];
 	let items: Item[] = [];
 
 	// Auto-compelete items
@@ -21,6 +24,13 @@
 
 	// Locate an item
 	async function locateItem(itemId: ObjectId | string) {
+		await fetch(`/api/save-search`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ itemId })
+		});
 		const location = await getUserLocation();
 
 		if (location) {
