@@ -89,22 +89,22 @@
 	</div>
   </div>
 
-<body class="flex h-svh w-full flex-col items-center justify-center" style:display={isMapVisible ? 'none' : 'block'} >
+<body class="flex h-svh w-full bg-white" style:display={isMapVisible ? 'none' : 'block'} >
 	<main>
-		<h2 class="text-center text-lg">Nearest2U</h2>
-		<form method="POST" class="mx-5 rounded-md p-2 shadow-md">
-			<h1 class="mb-5 text-center">Create your Store</h1>
-			<label class="label my-2">
+		<h2 class="text-center text-3xl font-bold pt-8">Nearest2U</h2>
+		<form method="POST" class="mx-5 rounded-md p-2">
+			<h1 class="mb-2 text-center">Create your Store</h1>
+			<label class="label my-4	">
 				<span>Email</span>
 				<input
 					name="email"
-					class="input form-input"
+					class="input form-input "
 					type="email"
 					placeholder="Enter your email"
 					required
 				/>
 			</label>
-			<label class="label my-2">
+			<label class="label my-4">
 				<span>Password</span>
 				<input
 					name="password"
@@ -114,7 +114,7 @@
 					required
 				/>
 			</label>
-			<label class="label my-2">
+			<label class="label my-4">
 				<span>Store Name</span>
 				<input
 					name="name"
@@ -124,17 +124,18 @@
 					required
 				/>
 			</label>
-			<label class="label my-2">
+			<label class="label my-4">
 				<span>Owner Identification</span>
 				<input
+				
 					name="nic"
-					class="input"
+					class="input form-input "
 					type="text"
 					placeholder="Enter your NIC or Passport Number"
 					required
 				/>
 			</label>
-			<label class="label my-2">
+			<label class="label my-4">
 				<span>Store Location</span>
 				<input
 					name="locationLat"
@@ -154,11 +155,11 @@
 				/>
 				<input
 					type="button"
-					class="variant-form-material btn w-full cursor-pointer"
+					class="variant-form-material bg-primary-200 bg-opacity-40 btn w-full cursor-pointer "
 					value="Click to set your store location"
 					on:click={openMap}/>
 			</label>
-			<button type="submit" class="variant-outline-primary btn mt-10 w-full">
+			<button type="submit" class=" shadow-md variant-outline-primary btn w-full bg-primary-600 text-white font-bold text-lg mt-4">
 				Create your Store
 			</button>
 		</form>

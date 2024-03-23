@@ -12,14 +12,14 @@
 </script>
 
 <main class="flex h-svh flex-col">
-	<h1 class="mx-5 my-2 text-center text-2xl text-secondary-500">Store Dashboard</h1>
+	<h1 class="text-center  py-6 text-3xl font-bold text-secondary-700 ">Store Dashboard</h1>
 	<section class="mx-5 my-2 rounded-md border-2 p-2">
 		<div class="mb-3 flex items-center justify-between">
 			<StoreIcon />
 			<div>
-				<h3 class="h2 text-primary-500">{store?.name}</h3>
-				<p class="pl-1 text-sm text-surface-600">{store?.geometry?.coordinates[1]}</p>
-				<p class="pl-1 text-sm text-surface-600">
+				<h3 class="h2 pb-3 text-primary-500">{store?.name}</h3>
+				<p class="pl-1 text-right text-sm text-surface-800">{store?.geometry?.coordinates[1]}</p>
+				<p class="pl-1 text-right text-sm text-surface-800">
 					{store?.geometry?.coordinates[0]}
 				</p>
 			</div>
@@ -36,13 +36,7 @@
 		</div>
 	</section>
 	<section class="mx-5 my-2 rounded-md border-2">
-		<button class="btn w-full">Manage Inventory</button>
+		<button class="btn bg-primary-500 text-white font-bold *:	w-full">Manage Inventory</button>
 	</section>
-	<section class="mx-5 my-2 flex-grow rounded-md border-2 p-2">
-		<h2 class="mb-3 text-center text-lg">Your Orders</h2>
-		<hr />
-		<div class="mt-3">
-			<p class="text-center text-surface-700">No Orders Yet</p>
-		</div>
-	</section>
+	
 </main>

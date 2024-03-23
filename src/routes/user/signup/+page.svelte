@@ -1,7 +1,9 @@
-<main>
-	<form method="POST" class="mx-5 rounded-md p-2 shadow-md">
-		<h1 class="mb-5 text-center">Sign up to sign up</h1>
-		<label class="label my-2">
+<body class="flex h-svh w-full bg-white" style="display:block">
+	<main>
+		
+		<form method="POST" class="mx-5 rounded-md p-2">
+			<h2 class="text-center text-3xl font-bold pt-8">Sign up</h2>	
+		<label class="label my-4">
 			<span>Email</span>
 			<input
 				name="email"
@@ -11,7 +13,7 @@
 				required
 			/>
 		</label>
-		<label class="label my-2">
+		<label class="label my-4">
 			<span>Password</span>
 			<input
 				name="password"
@@ -21,6 +23,7 @@
 				required
 			/>
 		</label>
-		<button type="submit" class="variant-outline-primary btn w-full">Sign Up</button>
+		<button type="submit" class=" shadow-md variant-outline-primary btn w-full bg-primary-600 text-white font-bold text-lg mt-4">Sign Up</button>
 	</form>
 </main>
+</body>

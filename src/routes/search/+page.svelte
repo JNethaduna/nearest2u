@@ -68,11 +68,17 @@
 	}
 </script>
 
-<body class="min-h-svh">
-	<h1 class="my-4 text-center text-2xl text-primary-500">nearest2u</h1>
-	<div class="mx-7 mt-32 flex flex-grow flex-col justify-center rounded-md border border-black">
+
+<body class="min-h-screen bg-primary-500 text-white">
+
+    <div class="flex justify-center py-4">
+        <img src="/TransLogo.png" alt="Nearest2U" class="w-1280 h-64 object-contain" />
+    </div>
+
+    <div class="mx-4 md:mx-auto md:max-w-lg">
+                <div class="flex flex-col justify-center rounded-md object-containborder border-black bg-white text-primary-500">
 		<input
-			class="rounded-t-md text-lg {query ? 'rounded-b-none' : 'rounded-b-md'}"
+			class="rounded-t-md text-lg px-4 py-2 focus:outline-none focus:ring-primary-500  focus:border-transparent {query ? 'rounded-b-none' : 'rounded-b-md'}"
 			type="text"
 			bind:value={query}
 			placeholder="Search for an item"
@@ -82,7 +88,7 @@
 				on:click={() => {
 					locateItem(item._id);
 				}}
-				class="btn justify-start rounded-none border-t last-of-type:rounded-b-md"
+				 class="btn flex justify-between items-center px-4 py-2 border-t border-primary-500 last-of-type:rounded-b-md hover:bg-primary-200"
 			>
 				{item.name} ({item.brand})
 			</button>
