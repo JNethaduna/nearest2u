@@ -133,7 +133,10 @@ export async function addToInventory(
 	}
 ): Promise<void> {
 	try {
-		const store = await stores!.findOne({ _id: storeId, 'items._id': item.item });
+		const store = (await stores!.findOne({
+			_id: storeId,
+			'items._id': item.item
+		})) as Document as Store;
 		if (store) {
 			// If the item already exists in the store's item list, increment the count
 			await changeItemCount(storeId, item.item, item.quantity);

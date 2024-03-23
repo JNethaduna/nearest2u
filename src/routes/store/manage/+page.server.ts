@@ -3,6 +3,9 @@ import { ObjectId } from 'mongodb';
 import { findStore } from '$lib/server/database/stores';
 
 export const load: PageServerLoad = async ({ locals }) => {
+	if (!locals.user) {
+		return;
+	}
 	const storeId = new ObjectId(locals.user.user.id as string);
 	const store = await findStore(storeId);
 	return {

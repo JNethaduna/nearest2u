@@ -4,8 +4,8 @@ import { getItem } from '$lib/server/database/items';
 import { ObjectId } from 'mongodb';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	const userId = locals.user.user.id as string;
-	if (userId) {
+	if (locals.user) {
+		const userId = locals.user.user.id as string;
 		const history = await getUserHistory(new ObjectId(userId));
 		if (history) {
 			const Itemhistory = await Promise.all(
