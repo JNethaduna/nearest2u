@@ -132,6 +132,9 @@ export async function addToInventory(
 		quantity: number;
 	}
 ): Promise<void> {
+	if (!item.quantity) {
+		item.quantity = 1;
+	}
 	try {
 		const store = (await stores!.findOne({
 			_id: storeId,

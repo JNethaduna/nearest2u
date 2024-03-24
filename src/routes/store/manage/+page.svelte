@@ -7,6 +7,7 @@
 
 	let open = true;
 	let close = () => {
+		open ? alert('Store Closed') : alert('Store Opened');
 		open = !open;
 	};
 </script>
