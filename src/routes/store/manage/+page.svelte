@@ -12,7 +12,7 @@
 </script>
 
 <main class="flex h-svh flex-col">
-	<h1 class="text-center  py-6 text-3xl font-bold text-secondary-700 ">Store Dashboard</h1>
+	<h1 class="py-6 text-center text-3xl font-bold text-secondary-700">Store Dashboard</h1>
 	<section class="mx-5 my-2 rounded-md border-2 p-2">
 		<div class="mb-3 flex items-center justify-between">
 			<StoreIcon />
@@ -36,7 +36,8 @@
 		</div>
 	</section>
 	<section class="mx-5 my-2 rounded-md border-2">
-		<button class="btn bg-primary-500 text-white font-bold *:	w-full">Manage Inventory</button>
+		<a href="/store/inventory" class="*: btn w-full bg-primary-500 font-bold text-white"
+			>Manage Inventory</a
+		>
 	</section>
-	
 </main>
