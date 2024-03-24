@@ -10,8 +10,13 @@
 	mapboxgl.accessToken = accessToken;
 
 	let directionsInitialized = false;
-
+	let loading = true;
 	onMount(async () => {
+		
+     let loading = true;
+		async function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 		const userLocation = sessionStorage.getItem('location');
 		const parsedLocation: GeoJSON = userLocation
 			? JSON.parse(userLocation)
@@ -33,14 +38,20 @@
 			coordinates: t.geometry.coordinates,
 			name: t.name
 		}));
-
+		await delay(4000);
+        
+       
+        initializeMap();
+		function initializeMap() {
 		map = new mapboxgl.Map({
 			container: 'map',
 			style: 'mapbox://styles/mapbox/streets-v11',
 			center: origin,
 			zoom: zoom
 		});
-
+		map.on('load', () => {
+            loading = false;
+        });
 		// @ts-ignore
 		const directions = new MapboxDirections({
 			accessToken: mapboxgl.accessToken,
@@ -95,7 +106,14 @@
 					});
 				});
 		});
-	});
+	}});
 </script>
-
-<div id="map" class="h-screen w-full"></div>
+<div class="text-black">
+<div id="map" class="h-screen w-full ">
+	{#if loading}
+        <div class="absolute inset-0 flex font-bold text-2xl bg-primary-500 items-center justify-center text-white">
+            <p>Loading...</p>
+        </div>
+    {/if}
+</div>
+</div>
