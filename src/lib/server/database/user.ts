@@ -34,5 +34,5 @@ export async function getUserByEmail(email: string): Promise<User | null> {
 export async function getUserHistory(userId: ObjectId): Promise<ObjectId[]> {
 	if (!users) await init();
 	const user = (await users!.findOne({ _id: userId })) as User;
-	return user.searchHistory;
+	return user ? user.searchHistory : ([] as ObjectId[]);
 }

@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
 		const userId = locals.user.user.id as string;
 		const history = await getUserHistory(new ObjectId(userId));
-		if (history) {
+		if (history.length > 0) {
 			const Itemhistory = await Promise.all(
 				history
 					.toReversed()
@@ -20,7 +20,11 @@ export const load: PageServerLoad = async ({ locals }) => {
 				}
 			};
 		}
-		return;
+		return {
+			props: {
+				history: []
+			}
+		};
 	}
 	return;
 };
